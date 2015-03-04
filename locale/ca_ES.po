@@ -1,0 +1,19 @@
+# 
+msgid ""
+msgstr "Content-Type: text/plain; charset=utf-8\n"
+
+msgctxt "field:product.product,kit_cost_price:"
+msgid "Kit Cost"
+msgstr "Preu de cost del Kit"
+
+msgctxt "field:product.product,kit_margin:"
+msgid "Kit Margin"
+msgstr "Marge del Kit"
+
+msgctxt "field:product.product,kit_margin_percent:"
+msgid "Kit Margin(%)"
+msgstr "Marge(%) del Kit"
+
+msgctxt "field:product.product,kit_pargin_percent:"
+msgid "Kit Margin %"
+msgstr "Marge(%) del Kit"
