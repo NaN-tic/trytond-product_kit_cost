@@ -14,9 +14,11 @@ __all__ = ['Product']
 __metaclass__ = PoolMeta
 
 _ZERO = Decimal('0.0')
+
 STATES = {
     'invisible': Bool(~Eval('kit')),
 }
+
 DEPENDS = ['kit']
 
 
