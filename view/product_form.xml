@@ -10,7 +10,7 @@ The COPYRIGHT file at the top level of this repository contains the full copyrig
             <label name="kit_margin"/>
             <field name="kit_margin"/>
             <label name="kit_margin_percent"/>
-            <field name="kit_margin_percent"/>
+            <field name="kit_margin_percent" factor="100"/>
         </group>
     </xpath>
 </data>
