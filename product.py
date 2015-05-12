@@ -72,7 +72,9 @@ class Product:
             price = product._get_kit_cost_price()
             prices['kit_cost_price'][product.id] = price
             prices['kit_margin'][product.id] = product.list_price - price
-            prices['kit_margin_percent'][product.id] = (1 -
-                price / product.list_price)
-
+            if product.list_price:
+                prices['kit_margin_percent'][product.id] = (1 -
+                    price / product.list_price)
+            else:
+                prices['kit_margin_percent'][product.id] = 0.0
         return prices
