@@ -119,18 +119,20 @@ class TestCase(unittest.TestCase):
             k1l2.parent = kit1
             k1l2.save()
 
-            # test kit11
-            # sale_price = 20
-            # cost_price = 5 + 2*5 = 15
-            # cost_margin = 20-15 = 5
-            # cost_margin_percent =  1-15/20
             self.assertEqual(kit11.kit_cost_price, Decimal('15'))
-            # test kit11
-            # sale_price = 50
-            # cost_price = kit11(5 + 2*5 = 15)*2 + 5  = 35
-            # cost_margin = 50-35 = 15
-            # cost_margin_percent = 1-35/50
             self.assertEqual(kit1.kit_cost_price, Decimal('35'))
+            for domain, result in [
+                    ([('kit_cost_price', '=', Decimal('15'))], [kit11]),
+                    ([('kit_cost_price', '!=', Decimal('15'))], [kit1]),
+                    ([('kit_cost_price', '<=', Decimal('15'))], [kit11]),
+                    ([('kit_cost_price', '<', Decimal('16'))], [kit11]),
+                    ([('kit_cost_price', '<', Decimal('14'))], []),
+                    ([('kit_cost_price', '>', Decimal('30'))], [kit1]),
+                    ([('kit_cost_price', '>=', Decimal('35'))], [kit1]),
+                    ([('kit_cost_price', '>', Decimal('35'))], []),
+                    ]:
+                products = self.product.search(domain)
+                self.assertEqual(products, result)
 
 
 def suite():

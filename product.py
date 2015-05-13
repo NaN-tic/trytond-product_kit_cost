@@ -1,12 +1,10 @@
 # The COPYRIGHT file at the top level of this repository contains the full
 # copyright notices and license terms.
-
 from decimal import Decimal
 from trytond.model import fields
 from trytond.pool import Pool, PoolMeta
 from trytond.pyson import Eval, Bool
 from trytond.config import config
-from trytond.tools import safe_eval
 
 DIGITS = config.getint('digits', 'unit_price_digits', 4)
 
@@ -52,14 +50,28 @@ class Product:
     @classmethod
     def search_kit_cost_price(cls, names, clause):
         field_name, operator, value = clause
+        # Remove factor on screen
+        if field_name == 'kit_margin_percent':
+            value = value / Decimal('100.0')
         products = cls.search([('kit', '=', True)])
-        prices = cls.get_kit_cost_price(products, names)
         product_ids = []
-        for product_id, val in prices.get(field_name).iteritems():
-            exp = ('%(val)s ' + operator + '%(value)s') % locals()
-            res_exp = safe_eval(exp)
-            if res_exp:
-                product_ids.append(product_id)
+        for product in products:
+            product_value = getattr(product, field_name)
+            insert = False
+            if operator == '=':
+                insert = product_value == value
+            elif operator == '!=':
+                insert = product_value != value
+            elif operator == '<':
+                insert = product_value < value
+            elif operator == '<=':
+                insert = product_value <= value
+            elif operator == '>':
+                insert = product_value > value
+            elif operator == '>=':
+                insert = product_value >= value
+            if insert:
+                product_ids.append(product.id)
         return [('id', 'in', product_ids)]
 
     @classmethod
@@ -76,5 +88,5 @@ class Product:
                 prices['kit_margin_percent'][product.id] = (1 -
                     price / product.list_price)
             else:
-                prices['kit_margin_percent'][product.id] = 0.0
+                prices['kit_margin_percent'][product.id] = _ZERO
         return prices
