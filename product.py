@@ -4,9 +4,7 @@ from decimal import Decimal
 from trytond.model import fields
 from trytond.pool import Pool, PoolMeta
 from trytond.pyson import Eval, Bool
-from trytond.config import config
-
-DIGITS = config.getint('digits', 'unit_price_digits', 4)
+from trytond.modules.product import price_digits
 
 __all__ = ['Product']
 __metaclass__ = PoolMeta
@@ -24,15 +22,15 @@ class Product:
     __name__ = 'product.product'
 
     kit_cost_price = fields.Function(fields.Numeric('Kit Cost',
-        digits=(16, DIGITS), states=STATES,
+        digits=price_digits, states=STATES,
             depends=DEPENDS), 'get_kit_cost_price',
         searcher='search_kit_cost_price')
     kit_margin = fields.Function(fields.Numeric('Kit Margin',
-        digits=(16, DIGITS), states=STATES,
+        digits=price_digits, states=STATES,
             depends=DEPENDS), 'get_kit_cost_price',
         searcher='search_kit_cost_price')
     kit_margin_percent = fields.Function(fields.Numeric('Kit Margin(%)',
-        digits=(16, DIGITS), states=STATES,
+        digits=price_digits, states=STATES,
             depends=DEPENDS), 'get_kit_cost_price',
         searcher='search_kit_cost_price')
 
